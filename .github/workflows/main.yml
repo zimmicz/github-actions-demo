@@ -53,7 +53,6 @@ jobs:
 
       - name: Update changelog
         run: |
-          git status
           cat <<END >> CHANGELOG.md
           ${{ env.PACKAGE_VERSION }} ($(date +%Y-%m-%d))
           ---
@@ -69,6 +68,7 @@ jobs:
       - name: Commit updated files
         run: |
           git commit -m "chore: release ${{ env.PACKAGE_VERSION }}"
+          git pull
           git push --set-upstream origin release/${{ env.PACKAGE_VERSION }}
 
       - name: Create PR for production release
