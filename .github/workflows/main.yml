@@ -68,7 +68,7 @@ jobs:
       - name: Commit updated files
         run: |
           git commit -m "chore: release ${{ env.PACKAGE_VERSION }}"
-          git ls --oneline
+          git log --oneline
           git push --set-upstream origin release/${{ env.PACKAGE_VERSION }}
 
       - name: Create PR for production release
