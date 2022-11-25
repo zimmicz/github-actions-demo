@@ -40,11 +40,9 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: develop
-          fetch-depth: 0
 
       - name: Setup git config
         run: |
-          git status
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
@@ -62,11 +60,13 @@ jobs:
 
       - name: Commit updated files
         run: |
-          git log --oneline
           git checkout -b ${{ env.RELEASE_BRANCH }}
           git add CHANGELOG.md
           find . -maxdepth 2 -type f -iname "package.json" -exec git add {} \;
           git commit -m "chore: release ${{ env.PACKAGE_VERSION }}"
+
+      - name: Is dev branch
+        run: ls -l
 
       - name: Create PR for production release
         uses: devops-infra/action-pull-request@v0.5.3
