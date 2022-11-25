@@ -13,6 +13,7 @@ on:
 env:
   PACKAGE_VERSION: ${{ github.event.inputs.package_version }}
   JIRA_FIX_VERSION: ${{ github.event.inputs.jira_fix_version }}
+  RELEASE_BRANCH: release/${{ github.event.inputs.package_version }}
 run-name: Release to ACC
 jobs:
   release:
@@ -66,7 +67,9 @@ jobs:
       - name: Create PR for production release
         uses: peter-evans/create-pull-request@v4
         with:
-          branch: release/${{ env.PACKAGE_VERSION }}
+          title: [Release] ${{ env.PACKAGE_VERSION }}
+          body: Deployment process to acc environment was triggered automatically. Do not merge this PR until regression testing is done on acc environment and it is safe to assume the build is stable.
+          branch: ${{ env.RELEASE_BRANCH }}
           base: main
           labels: |
             do not merge
