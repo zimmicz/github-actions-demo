@@ -67,6 +67,7 @@ jobs:
       - name: Create PR for production release
         uses: peter-evans/create-pull-request@v4
         with:
+          title: [Release] ${{ env.PACKAGE_VERSION }}
           body: Deployment process to acc environment was triggered automatically. Do not merge this PR until regression testing is done on acc environment and it is safe to assume the build is stable.
           branch: ${{ env.RELEASE_BRANCH }}
           base: main
