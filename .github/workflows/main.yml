@@ -68,6 +68,7 @@ jobs:
       - name: Commit updated files
         run: |
           git commit -m "chore: release ${{ env.PACKAGE_VERSION }}"
+          git push
 
       - name: Create PR for production release
         uses: peter-evans/create-pull-request@v4
