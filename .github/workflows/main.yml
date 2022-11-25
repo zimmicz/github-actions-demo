@@ -61,6 +61,7 @@ jobs:
       - name: Commit updated files
         run: |
           git checkout -b ${{ env.RELEASE_BRANCH }}
+          git log --oneline
           git add CHANGELOG.md
           find . -maxdepth 2 -type f -iname "package.json" -exec git add {} \;
           git commit -m "chore: release ${{ env.PACKAGE_VERSION }}"
@@ -68,7 +69,7 @@ jobs:
       - name: Is dev branch
         run: ls -l
 
-      - name: Create PR for production release
+      - name: Create release PR
         uses: devops-infra/action-pull-request@v0.5.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
