@@ -75,6 +75,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           source_branch: ${{ env.RELEASE_BRANCH }}
+          allow_no_diff: true
           target_branch: main
           body: Deployment process to acc environment was triggered automatically. Do not merge this PR until regression testing is done on acc environment and it is safe to assume the build is stable.
           title: "[Release] ${{ env.PACKAGE_VERSION }}"
