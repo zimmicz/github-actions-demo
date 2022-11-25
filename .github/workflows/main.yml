@@ -68,7 +68,7 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           body: Deployment process to acc environment was triggered automatically. Do not merge this PR until regression testing is done on acc environment and it is safe to assume the build is stable.
-          title: [Release] ${{ env.PACKAGE_VERSION }}
+          title: Release ${{ env.PACKAGE_VERSION }}
           branch: ${{ env.RELEASE_BRANCH }}
           base: main
           labels: |
