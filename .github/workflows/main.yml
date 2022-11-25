@@ -43,6 +43,7 @@ jobs:
 
       - name: Setup git config
         run: |
+          git status
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
