@@ -65,6 +65,7 @@ jobs:
           git add CHANGELOG.md
           find . -maxdepth 2 -type f -iname "package.json" -exec git add {} \;
           git commit -m "chore: release ${{ env.PACKAGE_VERSION }}"
+          git push -u origin
 
       - name: Is dev branch
         run: ls -l
