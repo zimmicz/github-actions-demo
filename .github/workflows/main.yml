@@ -50,7 +50,6 @@ jobs:
           git checkout develop
           # might be a good idea to use a different name for the first run to check without triggering acc release
           git checkout -b release/${{ env.PACKAGE_VERSION }}
-          git branch --set-upstream-to=origin/release/${{ env.PACKAGE_VERSION }} release/${{ env.PACKAGE_VERSION }}
 
       - name: Update changelog
         run: |
@@ -69,7 +68,7 @@ jobs:
       - name: Commit updated files
         run: |
           git commit -m "chore: release ${{ env.PACKAGE_VERSION }}"
-          git pull
+          git history
           git push --set-upstream origin release/${{ env.PACKAGE_VERSION }}
 
       - name: Create PR for production release
