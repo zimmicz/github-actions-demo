@@ -61,6 +61,7 @@ jobs:
 
       - name: Commit updated files
         run: |
+          git checkout -b ${{ env.RELEASE_BRANCH }}
           git add CHANGELOG.md
           find . -maxdepth 2 -type f -iname "package.json" -exec git add {} \;
           git commit -m "chore: release ${{ env.PACKAGE_VERSION }}"
