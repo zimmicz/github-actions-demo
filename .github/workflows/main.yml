@@ -36,7 +36,7 @@ jobs:
               exit 1
           fi
 
-      - name: Checkout
+      - name: Checkout develop branch
         uses: actions/checkout@v3
         with:
           ref: develop
@@ -80,6 +80,7 @@ jobs:
           git push --set-upstream origin ${{ env.RELEASE_BRANCH }}
 
       - name: Create release PR
+        id: create_release_pr
         uses: devops-infra/action-pull-request@v0.5.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -87,5 +88,15 @@ jobs:
           target_branch: main
           body: Deployment process to acc environment was triggered automatically. Do not merge this PR until regression testing is done on acc environment and it is safe to assume the build is stable.
           title: "[Release] ${{ env.PACKAGE_VERSION }}"
+          label: do not merge
+
+      - name: Create main -> develop PR
+        uses: devops-infra/action-pull-request@v0.5.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          source_branch: main
+          target_branch: develop
+          body: Merge this when [${{ steps.create_release_pr.outputs.pr_number}}](${{ steps.create_release_pr.outputs.url }}) has been merged.
+          title: "[Release] ${{ env.PACKAGE_VERSION }} merge back to develop"
           label: do not merge
 
