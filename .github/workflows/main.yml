@@ -44,7 +44,7 @@ jobs:
           fetch-depth: 0
 
       - name: ls -l
-        run: ls -la
+        run: ls -la .github/workflows
 
       - name: Hello world
         uses: actions/github-script@v6
