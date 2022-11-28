@@ -99,4 +99,5 @@ jobs:
           body: Merge this when [${{ steps.create_release_pr.outputs.pr_number}}](${{ steps.create_release_pr.outputs.url }}) has been merged.
           title: "[Release] ${{ env.PACKAGE_VERSION }} merge back to develop"
           label: do not merge
+          allow_no_diff: true
 
