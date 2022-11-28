@@ -6,7 +6,8 @@
   "author": "Casey Lee <cplee@nektos.com>",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "semver": "^7.3.8"
   },
   "devDependencies": {
     "chai": "^4.2.0",
