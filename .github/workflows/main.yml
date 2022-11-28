@@ -1,3 +1,5 @@
+# TODO create automatic PR from main -> develop that needs to be merged when release -> main is merged
+# - might be even done in a separate workflow
 run-name: Release ${{ inputs.package_version }}
 name: Release
 on:
