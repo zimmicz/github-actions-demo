@@ -17,6 +17,7 @@ env:
   RELEASE_BRANCH: release/v${{ github.event.inputs.package_version }}
 jobs:
   release:
+    name: Update changelog, package version and create release PR
     runs-on: ubuntu-latest
     steps:
       - name: Check user input
