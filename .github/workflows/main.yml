@@ -50,8 +50,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            console.log('**********************hello world');
-            const { semverCheck } = require('./.github/workflows/scripts/semver-check.js');
+            const { semverCheck } = require('./.github/actions/semver-check.js');
 
       - name: Setup git config
         run: |
