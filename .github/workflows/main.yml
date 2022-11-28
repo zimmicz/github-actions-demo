@@ -47,11 +47,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: npm ci
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Check semver
-        uses: actions/setup-node@v3
-      - run: node ./.github/actions/semver-check.js ${{ env.PACKAGE_VERSION }}
+        run: node ./.github/actions/semver-check.js ${{ env.PACKAGE_VERSION }}
 
       - name: Setup git config
         run: |
@@ -89,15 +90,4 @@ jobs:
           body: Deployment process to acc environment was triggered automatically. Do not merge this PR until regression testing is done on acc environment and it is safe to assume the build is stable.
           title: "[Release] ${{ env.PACKAGE_VERSION }}"
           label: do not merge
-
-      - name: Create main -> develop PR
-        uses: devops-infra/action-pull-request@v0.5.3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          source_branch: main
-          target_branch: develop
-          body: Merge this when [${{ steps.create_release_pr.outputs.pr_number}}](${{ steps.create_release_pr.outputs.url }}) has been merged.
-          title: "[Release] ${{ env.PACKAGE_VERSION }} merge back to develop"
-          label: do not merge
-          allow_no_diff: true
 
