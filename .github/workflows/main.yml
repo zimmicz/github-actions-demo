@@ -49,7 +49,7 @@ jobs:
           node-version: 16
       - run: npm ci
 
-      - name: Hello world
+      - name: Check semver
         uses: actions/setup-node@v3
       - run: node ./.github/actions/semver-check.js ${{ env.PACKAGE_VERSION }}
 
