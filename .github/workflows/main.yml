@@ -50,10 +50,8 @@ jobs:
       - run: npm ci
 
       - name: Hello world
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const { semverCheck } = require('./.github/actions/semver-check.js');
+        uses: actions/setup-node@v3
+      - run: node ./.github/actions/semver-check.js ${{ env.PACKAGE_VERSION }}
 
       - name: Setup git config
         run: |
