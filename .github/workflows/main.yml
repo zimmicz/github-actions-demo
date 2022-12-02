@@ -47,7 +47,7 @@ jobs:
           # Check JIRA fix version hasn't been already released
           grep ${{ env.JIRA_FIX_VERSION }} CHANGELOG.md
           status=$?
-          if [[ status -gt 0 ]];
+          if [[ status -eq 0 ]];
             then
               echo "JIRA fix version already present in CHANGELOG.md"
               exit 1
