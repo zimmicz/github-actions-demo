@@ -26,9 +26,7 @@ jobs:
 
       - name: Create release tag
         run: |
-          echo "---------------------"
-          echo ${{ github.head_ref }}
-          version=v$(grep "version" package.json | cat | cut -d ":" -f 2 | tr -d '", ')
+          version=$(echo ${{ github.head_ref }} | tr -d "release/")
           git tag -a $version -m "version $version"
           git push origin $version
 
