@@ -1,0 +1,27 @@
+# TODO
+# - create automatic PR from main -> develop that needs to be merged when release -> main is merged
+# - create tag when the PR ^ is merged
+run-name: Merge main back to develop after release ${{ inputs.package_version }}
+name: Merge main back to develop after release
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+jobs:
+  merge_main_back_to_develop:
+    name: Create PR
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create main -> develop PR
+        id: create_main_develop_pr
+        uses: devops-infra/action-pull-request@v0.5.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          source_branch: main
+          target_branch: develop
+          body: This should be merged once the release to production is finished.
+          title: "[Release] main -> develop"
+          label: do not merge
