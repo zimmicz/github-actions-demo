@@ -78,7 +78,7 @@ jobs:
 
       - name: Update package version
         run: |
-          find . -maxdepth 2 -type f -iname "package.json" -exec sed -i s/version.*/version:\"\ ${{ env.PACKAGE_VERSION }}\",/g {} \;
+          find . -maxdepth 2 -type f -iname "package.json" -exec sed -i s/version.*/version\": \"\ ${{ env.PACKAGE_VERSION }}\",/g {} \;
 
       - name: Commit and push updated files
         run: |
