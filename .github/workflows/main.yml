@@ -30,7 +30,6 @@ jobs:
       - name: Check user input
         shell: bash
         run: |
-          #set +e +o pipefail
           # Check version
           if ! [[ ${{ env.PACKAGE_VERSION }} =~ ^[0-9]+\.[0-9]+\.[0-9]+ ]];
             then
@@ -53,6 +52,8 @@ jobs:
               exit 1
           fi
 
+          node ./.github/actions/semver-check.js ${{ env.PACKAGE_VERSION }}
+
       - name: Install repo
         uses: actions/setup-node@v3
         with:
@@ -60,9 +61,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Check semver
-        run: node ./.github/actions/semver-check.js ${{ env.PACKAGE_VERSION }}
 
       - name: Setup git config
         run: |
