@@ -45,6 +45,8 @@ jobs:
           fi
 
           cat CHANGELOG.md
+          whereis grep
+          grep "2022" CHANGELOG.md
           # Check JIRA fix version hasn't been already released
           grep "${{ env.JIRA_FIX_VERSION }}" CHANGELOG.md
           exit_code=$?
