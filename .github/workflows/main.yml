@@ -46,8 +46,9 @@ jobs:
           fi
 
           # Check JIRA fix version hasn't been already released
-          existing_jira_fix_version=$(awk '/${{ env.JIRA_FIX_VERSION}}/{print}' CHANGELOG.md) | wc -l
-          if [[ $existing_jira_fix_version -eq 1 ]];
+          existing_jira_fix_version=$(awk '/${{ env.JIRA_FIX_VERSION}}/{print}' CHANGELOG.md)
+          echo $existing_jira_fix_version
+          if [[ -n $existing_jira_fix_version ]];
             then
               echo "JIRA fix version already present in CHANGELOG.md"
               exit 1
