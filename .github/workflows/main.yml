@@ -1,5 +1,11 @@
-# TODO create automatic PR from main -> develop that needs to be merged when release -> main is merged
-# - might be even done in a separate workflow
+# DONE
+# - automatic version bump
+# - automatic changelog update
+#   -> date might be wrong
+# - release PR (release/vX.Y.Z -> main)
+# TODO
+# - create automatic PR from main -> develop that needs to be merged when release -> main is merged
+# - create tag when the PR ^ is merged
 run-name: Release ${{ inputs.package_version }}
 name: Release
 on:
@@ -91,6 +97,16 @@ jobs:
           source_branch: ${{ env.RELEASE_BRANCH }}
           target_branch: main
           body: Deployment process to acc environment was triggered automatically. Do not merge this PR until regression testing is done on acc environment and it is safe to assume the build is stable.
-          title: "[Release] ${{ env.PACKAGE_VERSION }}"
+          title: "[Release ${{ env.PACKAGE_VERSION }}] release branch -> main"
           label: do not merge
 
+      - name: Create main -> develop PR
+        id: create_main_develop_pr
+        uses: devops-infra/action-pull-request@v0.5.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          source_branch: main
+          target_branch: develop
+          body: This should be merged once the release to production is finished.
+          title: "[Release ${{ env.PACKAGE_VERSION }}] main -> develop"
+          label: do not merge
