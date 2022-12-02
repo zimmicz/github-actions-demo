@@ -46,8 +46,12 @@ jobs:
 
           # Check JIRA fix version hasn't been already released
           grep "${{ env.JIRA_FIX_VERSION }}" CHANGELOG.md
-          echo "JIRA fix version already present in CHANGELOG.md"
-          exit 1
+          exit_code=$?
+          if [[ $exit_code -eq 0 ]];
+            then
+              echo "JIRA fix version already present in CHANGELOG.md"
+              exit 1
+          fi
 
       - name: Install repo
         uses: actions/setup-node@v3
