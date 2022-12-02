@@ -19,8 +19,15 @@ jobs:
           # needed otherwise no merge base can be found
           fetch-depth: 0
 
+      - name: Setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
       - name: Create release tag
         run: |
+          echo "---------------------"
+          echo ${{ github.head_ref }}
           version=v$(grep "version" package.json | cat | cut -d ":" -f 2 | tr -d '", ')
           git tag -a $version -m "version $version"
           git push origin $version
