@@ -30,6 +30,7 @@ jobs:
       - name: Check user input
         shell: bash
         run: |
+          set +x
           # Check version
           if ! [[ ${{ env.PACKAGE_VERSION }} =~ ^[0-9]+\.[0-9]+\.[0-9]+ ]];
             then
@@ -45,7 +46,9 @@ jobs:
           fi
 
           # Check JIRA fix version hasn't been already released
+          echo "1***************************************"
           grep "${{ env.JIRA_FIX_VERSION }}" CHANGELOG.md
+          echo "2***************************************"
           exit_code=$?
           if [[ $exit_code -eq 0 ]];
             then
