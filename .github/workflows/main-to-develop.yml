@@ -21,7 +21,7 @@ jobs:
 
       - name: Create release tag
         run: |
-          version=v$(grep "version" package.json | cat | cut -d ":" -f 2 | tr -d '",')
+          version=v$(grep "version" package.json | cat | cut -d ":" -f 2 | tr -d '", ')
           git tag -a $version -m "version $version"
           git push origin $version
 
