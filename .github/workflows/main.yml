@@ -67,12 +67,25 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
+      - name: Checkout main branch
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          # needed otherwise no merge base can be found
+          fetch-depth: 0
+
       - name: Run Changelog CI
         uses: saadmk11/changelog-ci@v1.1.0
         with:
           release_version: ${{ env.PACKAGE_VERSION }}
           changelog_filename: "../changelog-ci-config.json"
 
+      - name: Checkout develop branch
+        uses: actions/checkout@v3
+        with:
+          ref: develop
+          # needed otherwise no merge base can be found
+          fetch-depth: 0
 
       - name: Update package version
         run: |
