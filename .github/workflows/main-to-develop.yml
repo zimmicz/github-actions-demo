@@ -33,6 +33,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ env.TAG }}
+          body: See CHANGELOG.md
 
       - name: Create main -> develop PR
         id: create_main_develop_pr
