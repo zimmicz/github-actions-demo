@@ -30,6 +30,14 @@ jobs:
           git tag -a $version -m "version $version"
           git push origin $version
 
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ github.head_ref }} | tr -d "release/"
+          files: "./**/*"
+          fail_on_unmatched_files: true
+
       - name: Create main -> develop PR
         id: create_main_develop_pr
         uses: devops-infra/action-pull-request@v0.5.3
