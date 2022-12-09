@@ -34,3 +34,7 @@ JIRA fix version: 2023.Q1.1
 ---
 JIRA fix version: 2023.Q1.2
 
+5.0.4 (2022-12-09)
+---
+JIRA fix version: 2023.Q1.4
+
