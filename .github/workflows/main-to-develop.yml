@@ -27,7 +27,7 @@ jobs:
           git config user.email "<>"
 
       - name: Set release tag
-        run: echo "TAG=$(echo (${{ github.head_ref }} | tr -d 'release/'))" >> $GITHUB_ENV
+        run: echo "TAG=$(echo ${{ github.head_ref }} | tr -d 'release/')" >> $GITHUB_ENV
 
       - name: Create release
         uses: softprops/action-gh-release@v1
