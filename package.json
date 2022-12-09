@@ -1,6 +1,6 @@
 {
   "name": "github-actions-demo",
-  "version": "5.0.7",
+  "version": "5.0.8",
   "main": "index.js",
   "repository": "git@github.com:cplee/github-actions-demo.git",
   "author": "Casey Lee <cplee@nektos.com>",
