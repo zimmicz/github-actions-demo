@@ -6,6 +6,8 @@ on:
       - main
     types:
       - closed
+env:
+  TAG: ${{ github.head_ref }} | tr -d "release/"
 jobs:
   merge_main_back_to_develop:
     name: Create PR
@@ -24,10 +26,13 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
+      - name: Set release tag
+        run: echo "TAG=$(echo (${{ github.head_ref }} | tr -d 'release/'))" >> $GITHUB_ENV
+
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.head_ref | tr -d "release/" }}
+          tag_name: ${{ env.TAG }}
           token: ${{ secrets.GITHUB_TOKEN }}
           files: "./**/*"
           fail_on_unmatched_files: true
