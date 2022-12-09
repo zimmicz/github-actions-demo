@@ -24,12 +24,6 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
-      - name: Create release tag
-        run: |
-          version=$(echo ${{ github.head_ref }} | tr -d "release/")
-          git tag -a $version -m "version $version"
-          git push origin $version
-
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
