@@ -28,7 +28,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: $(${{ github.head_ref }} | tr -d "release/")
+          tag_name: "v5.0.2"
           files: "./**/*"
           fail_on_unmatched_files: true
 
