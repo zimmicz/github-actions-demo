@@ -67,14 +67,12 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
-      - name: Update changelog
-        run: |
-          cat <<END >> CHANGELOG.md
-          ${{ env.PACKAGE_VERSION }} ($(date +%Y-%m-%d))
-          ---
-          JIRA fix version: ${{ env.JIRA_FIX_VERSION }}
+      - name: Run Changelog CI
+        uses: saadmk11/changelog-ci@v1.1.0
+        with:
+          release_version: ${{ env.PACKAGE_VERSION }}
+          changelog_filename: "../changelog-ci-config.json"
 
-          END
 
       - name: Update package version
         run: |
