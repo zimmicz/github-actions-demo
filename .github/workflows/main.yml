@@ -96,6 +96,11 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           source_branch: ${{ env.RELEASE_BRANCH }}
           target_branch: main
-          body: Deployment process to acc environment was triggered automatically. Do not merge this PR until regression testing is done on acc environment and it is safe to assume the build is stable. :warning:
+          body: |
+          ⚠️⚠️⚠️⚠️⚠️⚠️
+          Deployment process to acc environment was triggered automatically. You can merge this PR once the testing on ACC is done.
+          **When this PR is merged, it will create another one to merge `main` back to `develop`. Don't forget to merge it as well.**
+          You can track the progress through `Actions` tab.
+          ⚠️⚠️⚠️⚠️⚠️⚠️
           title: "[Release ${{ env.PACKAGE_VERSION }}] release branch -> main"
           label: do not merge
