@@ -1,3 +1,8 @@
+# Version: 5.0.10
+
+* [#48](https://github.com/zimmicz/github-actions-demo/pull/48): [Release] main -> develop
+
+
 1.2.3 (2022-12-02)
 ---
 JIRA fix version: 2022.Q4.1
