@@ -39,7 +39,7 @@ jobs:
         run: npx cypress install
 
       - name: Install cucumber-json-formatter
-        uses: supplypike/setup-bin@v1
+        uses: supplypike/setup-bin@v3
         with:
           uri: https://github.com/cucumber/json-formatter/releases/download/v19.0.0/cucumber-json-formatter-linux-386
           name: cucumber-json-formatter
