@@ -14,7 +14,7 @@ runs:
       with:
         path: |
           "./webapp/node_modules"
-          "./.github/node_modules"
+          "./.github/actions/bin/node_modules"
         key: modules-${{ hashFiles('**/package-lock.json') }}
 
     - name: Install dependencies
@@ -22,6 +22,6 @@ runs:
       run: |
         cd ./webapp
         npm ci --legacy-peer-deps --prefer-offline --no-audit
-        cd ../.github
+        cd ../.github/actions/bin
         npm ci --legacy-peer-deps --prefer-offline --no-audit
       shell: "bash"
