@@ -1,5 +1,5 @@
 run-name: Release ${{ inputs.package_version }}
-name: Release
+name: Release zimmi
 on:
   workflow_dispatch:
     inputs:
