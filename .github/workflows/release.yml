@@ -87,7 +87,7 @@ jobs:
             # 8. LEV^686 (feature): add delete hook and popups
             # 9. LEV-686 (feature): add delete hook and popups
             # 10. sort by ticket number
-          $(git log --merges --oneline main..develop \ # get all the merge commits on develop that are not on main yet
+          $(git log --merges --oneline main..develop \
             | grep -e "Merge pull request .*" \
             | cut -d "/" -f 2,3 \
             | uniq \
