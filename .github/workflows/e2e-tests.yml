@@ -1,0 +1,70 @@
+name: E2E tests
+on:
+  schedule:
+    # high load times occur on start of every hour
+    # see https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
+    - cron: '38 2 * * *'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment you want to test (either test or acc)'
+        required: true
+        default: 'test'
+env:
+  CYPRESS_CACHE_FOLDER: /home/runner/.cache/Cypress
+  CYPRESS_OGP_CREDENTIALS: ${{ secrets.CYPRESS_OGP_CREDENTIALS }}
+  CYPRESS_OGP_EMAIL: ${{ secrets.CYPRESS_OGP_EMAIL }}
+  CYPRESS_HQ_CREDENTIALS: ${{ secrets.CYPRESS_HQ_CREDENTIALS }}
+  CYPRESS_HQ_EMAIL: ${{ secrets.CYPRESS_HQ_EMAIL }}
+  # if workflow is triggered by schedule, input value is missing and a fallback is needed
+  CYPRESS_ENVIRONMENT: ${{ github.event.inputs.environment || 'test' }}
+  # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#run-name env context not available here
+run-name: E2E tests running on ${{ github.event.inputs.environment || 'test' }}
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: ./webapp
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup
+        uses: "./.github/actions/npm-setup"
+
+      # TODO find a way to cache cypress binary between runs
+      - name: Install cypress
+        run: npx cypress install
+
+      - name: Install cucumber-json-formatter
+        uses: supplypike/setup-bin@v1
+        with:
+          uri: https://github.com/cucumber/json-formatter/releases/download/v19.0.0/cucumber-json-formatter-linux-386
+          name: cucumber-json-formatter
+          version: '19.0.0'
+
+      - name: Test
+        run: npm run test:e2e
+
+      - name: Upload videos
+        uses: actions/upload-artifact@v3
+        if: ${{ failure() }}
+        with:
+          name: cypress-videos
+          path: ./webapp/cypress/videos
+
+      - name: Upload screenshosts
+        uses: actions/upload-artifact@v3
+        if: ${{ failure() }}
+        with:
+          name: cypress-screenshots
+          path: ./webapp/cypress/screenshots
+
+      - name: Upload report
+        uses: actions/upload-artifact@v3
+        if: ${{ always() }}
+        with:
+          name: cucumber-report
+          path: ./webapp/cucumber-report.json

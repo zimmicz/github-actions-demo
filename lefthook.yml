@@ -1,0 +1,19 @@
+pre-commit:
+  parallel: true
+  commands:
+    eslint:
+      root: "webapp/"
+      glob: "*.{ts,tsx}"
+      run: npx eslint {staged_files}
+    tsc:
+      root: "webapp/"
+      glob: "*.{ts,tsx}"
+      run: npx tsc --noEmit -p .
+    prettier:
+      root: "webapp/"
+      glob: "*.{ts,tsx}"
+      run: npx prettier -w {staged_files}
+    check-kebab-case-paths:
+      root: "webapp/"
+      glob: "*.{ts,tsx}"
+      run: node ../.lefthook/pre-commit/check-kebab-case-paths.js {staged_files}

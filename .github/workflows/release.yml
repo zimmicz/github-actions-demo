@@ -1,0 +1,129 @@
+run-name: Release ${{ inputs.package_version }}
+name: Release
+on:
+  workflow_dispatch:
+    inputs:
+      package_version:
+        description: 'Version you are about to release (e.g. 1.2.3)'
+        required: true
+        default: 'X.Y.Z'
+      jira_fix_version:
+        description: 'JIRA fix version for the release (e.g. 2022.Q4.2)'
+        required: true
+        default: 'YYYY.QX.Z'
+env:
+  PACKAGE_VERSION: ${{ github.event.inputs.package_version }}
+  JIRA_FIX_VERSION: ${{ github.event.inputs.jira_fix_version }}
+  RELEASE_BRANCH: release/v${{ github.event.inputs.package_version }}
+jobs:
+  release:
+    name: Update changelog, package version and create release PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout develop branch
+        uses: actions/checkout@v3
+        with:
+          ref: develop
+          # needed otherwise no merge base can be found
+          fetch-depth: 0
+
+      - name: Setup
+        uses: "./.github/actions/npm-setup"
+
+      - name: Check user input
+        shell: bash
+        run: |
+          # Check version
+          if ! [[ ${{ env.PACKAGE_VERSION }} =~ ^[0-9]+\.[0-9]+\.[0-9]+ ]];
+            then
+              echo "Unexpected package version format"
+              exit 1
+          fi
+
+          # Check JIRA fix version
+          if ! [[ ${{ env.JIRA_FIX_VERSION }} =~ ^[0-9]{4}\.Q[0-9]+\.[0-9]+ ]];
+            then
+              echo "Unexpected JIRA fix version format"
+              exit 1
+          fi
+
+          # Check JIRA fix version hasn't been already released
+          existing_jira_fix_version=$(awk '/${{ env.JIRA_FIX_VERSION}}/{print}' CHANGELOG.md)
+          if [[ -n $existing_jira_fix_version ]];
+            then
+              echo "JIRA fix version already present in CHANGELOG.md"
+              exit 1
+          fi
+
+          node ./.github/actions/bin/semver-check.js ${{ env.PACKAGE_VERSION }}
+
+      - name: Setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
+      - name: Update changelog
+        run: |
+          cat <<END >> CHANGELOG.md
+          ${{ env.PACKAGE_VERSION }} ($(date +%Y-%m-%d))
+          ---
+          JIRA fix version: ${{ env.JIRA_FIX_VERSION }}
+
+            # Imagine this is the result of the git log below:
+            #
+            # c6ebce09 Merge pull request #576 from Level-works/feature/LEV-686-add-delete-hook-and-popups
+            # 66ff6a86 Merge branch 'develop' into feature/LEV-686-add-delete-hook-and-popups
+            #
+            # Then these will be intermediate results of the steps.
+            #
+            # 1. c6ebce09 Merge pull request #576 from Level-works/feature/LEV-686-add-delete-hook-and-popups
+            # 2. feature/LEV-686-add-delete-hook-and-popups
+            # 3. feature/LEV-686-add-delete-hook-and-popups
+            # 4. drop any creative friday merges
+            # 5. LEV-686-add-delete-hook-and-popups~(feature)
+            # 6. LEV^686~add-delete-hook-and-popups~(feature)
+            # 7. LEV^686~add delete hook and popups~(feature)
+            # 8. LEV^686 (feature): add delete hook and popups
+            # 9. LEV-686 (feature): add delete hook and popups
+            # 10. sort by ticket number
+          $(git log --merges --oneline main..develop \ # get all the merge commits on develop that are not on main yet
+            | grep -e "Merge pull request .*" \
+            | cut -d "/" -f 2,3 \
+            | uniq \
+            | grep -v "creative-friday" \
+            | awk -F '/' '{ print $2"~("$1")" }' \
+            | awk -F '-' '{print $1 "^" $2 "~" substr($0, index($0, $3))}' \
+            | sed 's/-/ /g' \
+            | awk -F '~' '{ print $1" "$3 ": "$2}' \
+            | sed 's/\^/-/g'
+            | sort)
+
+          END
+
+      - name: Update package version
+        run: |
+          find . -maxdepth 2 -type f -iname "package.json" -exec sed -i s/version.*/version\":\ \"\${{ env.PACKAGE_VERSION }}\",/g {} \;
+
+      - name: Commit and push updated files
+        run: |
+          git checkout -b ${{ env.RELEASE_BRANCH }}
+          git add CHANGELOG.md
+          find . -maxdepth 2 -type f -iname "package.json" -exec git add {} \;
+          git commit -m "chore: release ${{ env.PACKAGE_VERSION }}"
+          git push --set-upstream origin ${{ env.RELEASE_BRANCH }}
+
+      - name: Create release PR
+        id: create_release_pr
+        uses: devops-infra/action-pull-request@v0.5.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          source_branch: ${{ env.RELEASE_BRANCH }}
+          target_branch: main
+          body: |
+            ⚠️⚠️⚠️⚠️⚠️⚠️
+            Deployment process to ACC was triggered automatically. You can merge this PR once the testing on ACC is done.
+            **When this PR is merged, it will create another one to merge `main` back to `develop`. Don't forget to merge it as well.**
+            You can check that subsequent PR is being created in `Actions` when you merge this one.
+            ⚠️⚠️⚠️⚠️⚠️⚠️
+          title: "[Release ${{ env.PACKAGE_VERSION }}] release branch -> main"
+          label: do not merge

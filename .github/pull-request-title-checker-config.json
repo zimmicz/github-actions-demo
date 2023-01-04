@@ -1,0 +1,14 @@
+{
+  "LABEL": {
+    "name": "title needs formatting",
+    "color": "EEEEEE"
+  },
+  "CHECKS": {
+    "regexp": "\\[(LEV|LW1)-[0-9]+\\] [A-Z]{1}.*"
+  },
+  "MESSAGES": {
+    "success": "PR title is ok",
+    "failure": "PR title should follow this format: [TICKET-ID] Uppercased title, e.g. [LEV-100] Hello world or [LW1-100] Hello world."
+  }
+}
+
