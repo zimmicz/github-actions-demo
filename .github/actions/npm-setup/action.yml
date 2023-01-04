@@ -10,25 +10,18 @@ runs:
         cache: "npm"
 
     - uses: actions/cache@v3
-      id: webapp_cache
+      id: cache
       with:
-        path: "./webapp/node_modules"
-        key: modules-${{ hashFiles('./webapp/package-lock.json') }}
+        path: |
+          "./webapp/node_modules"
+          "./.github/node_modules"
+        key: modules-${{ hashFiles('**/package-lock.json') }}
 
-    - name: Install webapp dependencies
-      if: steps.webapp_cache.outputs.cache-hit != 'true'
-      run: npm ci --legacy-peer-deps --prefer-offline --no-audit
-      working-directory: ./webapp
-      shell: "bash"
-
-    - uses: actions/cache@v3
-      id: github_actions_bin_cache
-      with:
-        path: "./.github/actions/bin/node_modules"
-        key: modules-${{ hashFiles('./.github/actions/bin/package-lock.json') }}
-
-    - name: Install github actions dependencies
-      if: steps.github_actions_bin_cache.outputs.cache-hit != 'true'
-      run: npm ci --legacy-peer-deps --prefer-offline --no-audit
-      working-directory: ./.github/actions/bin
+    - name: Install dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: |
+        cd ./webapp
+        npm ci --legacy-peer-deps --prefer-offline --no-audit
+        cd ../.github
+        npm ci --legacy-peer-deps --prefer-offline --no-audit
       shell: "bash"
