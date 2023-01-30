@@ -1,7 +1,13 @@
 name: Code Health
-on: [push]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
 jobs:
   check-types:
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -13,6 +19,7 @@ jobs:
       - run: npm run check:typescript
 
   check-eslint:
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -24,6 +31,7 @@ jobs:
       - run: npm run check:eslint
 
   check-prettier:
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -35,6 +43,7 @@ jobs:
       - run: npm run check:prettier
 
   test:
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
     runs-on: ubuntu-latest
     defaults:
       run:
