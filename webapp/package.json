@@ -4,8 +4,10 @@
   "private": true,
   "dependencies": {
     "@aws-amplify/ui-react": "^4.2.1",
+    "esbuild": "^0.16.7",
     "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
     "@esbuild-plugins/node-modules-polyfill": "^0.1.4",
+    "@ladle/react": "^2.5.1",
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
     "@material-ui/lab": "^4.0.0-alpha.60",
@@ -40,7 +42,11 @@
     "test:coverage": "vitest --coverage",
     "test:e2e": "cypress run -C cypress/cypress.config.ts",
     "test:e2e:ui": "cypress run -C cypress/cypress.config.ts --headed --browser chrome",
-    "cy:open": "cypress open -C cypress/cypress.config.ts"
+    "cy:open": "cypress open -C cypress/cypress.config.ts",
+    "ladle": "ladle",
+    "ladle:serve": "ladle serve",
+    "ladle:build": "ladle build",
+    "ladle:preview": "ladle preview"
   },
   "eslintConfig": {
     "extends": [
@@ -85,9 +91,9 @@
       "not op_mini all"
     ],
     "development": [
-      "last 1 chrome version": "8.15.0",
-      "last 1 firefox version": "8.15.0",
-      "last 1 safari version": "8.15.0",
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
     ]
   },
   "devDependencies": {
