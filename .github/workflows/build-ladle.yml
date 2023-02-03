@@ -30,7 +30,8 @@ jobs:
           git fetch origin gh-pages
           git checkout gh-pages
           git reset --hard
-          rsync -a ./docs ./
+          rm -rf ./assets
+          mv ./docs/* ./
           rm -rf ./docs
           git add --all
           git reset -- .github
