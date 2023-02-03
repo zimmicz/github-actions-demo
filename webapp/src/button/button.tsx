@@ -1,3 +1,4 @@
 const Button = () => <>hello world</>;
+const x = 1;
 
-export { Button };
+export { x, Button };
