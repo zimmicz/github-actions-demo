@@ -8,6 +8,7 @@ on:
       - develop
     paths:
       - '**.stories.ts*'
+      - '.ladle'
   workflow_dispatch:
 
 jobs:
@@ -23,7 +24,7 @@ jobs:
           ref: develop
       - uses: "./.github/actions/npm-setup"
       - name: Build components
-        run: npm run ladle:build -- --outDir "../docs"
+        run: npm run ladle:build -- --base "/${{github.event.repository.name}}/" --outDir "../docs"
       - name: Update components
         run: |
           cd ..
