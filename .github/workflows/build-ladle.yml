@@ -24,7 +24,7 @@ jobs:
       - name: Update components
         run: |
           cd ..
-          ls -Qa | grep -v docs | grep -v "\.\." | grep -v "^\".\"$" | grep -v "\".git\"$" | xargs rm -rf
+          ls -Qa | grep -v docs | grep -v "\.\." | grep -v "^\".\"$" | grep -v "\".git" | xargs rm -rf
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
           git fetch origin gh-pages
@@ -32,6 +32,7 @@ jobs:
           git reset --hard
           mv ./docs/* ./
           rm -rf ./docs
-          git add .
+          git add --all
+          git reset -- .github
           git commit -m "feat: update component library"
           git push origin
