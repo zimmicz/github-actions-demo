@@ -104,6 +104,16 @@
       "locEnd": 12,
       "filePath": "src/button/button.stories.tsx",
       "meta": {}
+    },
+    "button--default10": {
+      "name": "Default10",
+      "levels": [
+        "Button"
+      ],
+      "locStart": 13,
+      "locEnd": 13,
+      "filePath": "src/button/button.stories.tsx",
+      "meta": {}
     }
   }
 }
