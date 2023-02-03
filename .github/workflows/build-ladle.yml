@@ -24,16 +24,24 @@ jobs:
       - name: Update components
         run: |
           cd ..
+          # keep docs
+          # keep parent folder (..)
+          # keep current folder (.)
+          # keep both .git and .github folders
+          # drop the rest
           ls -Qa | grep -v docs | grep -v "\.\." | grep -v "^\".\"$" | grep -v "\".git" | xargs rm -rf
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
           git fetch origin gh-pages
           git checkout gh-pages
           git reset --hard
+          # drop the previous build
           rm -rf ./assets
           mv ./docs/* ./
           rm -rf ./docs
           git add --all
+          ls -la
           git reset -- .github
           git commit -m "feat: update component library"
           git push origin
+          git add --all
