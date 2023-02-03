@@ -1,0 +1,29 @@
+name: Build Ladle
+run-name: Updating Ladle component library
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - develop
+
+jobs:
+  build:
+    #if: github.event.pull_request.merged == true
+    defaults:
+      run:
+        working-directory: ./webapp
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      #- uses: "./.github/actions/npm-setup"
+      #- name: Build components
+        #run: DEBUG=ladle* npm run ladle:build -- --outDir "../docs"
+      - name: Setup git config
+        run: |
+          git remote show origin
+          #ls -la ../docs
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+          git fetch
+          git checkout gh-pages
