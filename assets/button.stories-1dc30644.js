@@ -1,0 +1,1 @@
+import{j as t,F as o}from"./index-f54754cb.js";const e=()=>t(o,{children:"hello world"}),d=()=>t(e,{}),a=()=>t(e,{}),c=()=>t(e,{});typeof window<"u"&&window.document&&window.document.createElement&&document.documentElement.setAttribute("data-storyloaded","");export{d as Default,a as Default1,c as Default2};
