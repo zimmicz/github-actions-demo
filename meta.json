@@ -84,6 +84,16 @@
       "locEnd": 10,
       "filePath": "src/button/button.stories.tsx",
       "meta": {}
+    },
+    "button--default8": {
+      "name": "Default8",
+      "levels": [
+        "Button"
+      ],
+      "locStart": 11,
+      "locEnd": 11,
+      "filePath": "src/button/button.stories.tsx",
+      "meta": {}
     }
   }
 }
