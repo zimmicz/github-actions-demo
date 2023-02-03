@@ -8,7 +8,6 @@ on:
       - develop
     paths:
       - '**.stories.ts*'
-  workflow_dispatch:
 
 jobs:
   build:
