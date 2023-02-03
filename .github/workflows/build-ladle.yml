@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    #if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     defaults:
       run:
         working-directory: ./webapp
@@ -18,14 +18,22 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: develop
-      #- uses: "./.github/actions/npm-setup"
-      #- name: Build components
-        #run: DEBUG=ladle* npm run ladle:build -- --outDir "../docs"
+      - uses: "./.github/actions/npm-setup"
+      - name: Build components
+        run: npm run ladle:build -- --outDir "../docs"
+        run: mkdir ../docs && cd ../docs && echo "hello" > index.txt
+
       - name: Setup git config
         run: |
-          git remote show origin
-          #ls -la ../docs
+          cd ..
+          ls -Qa | grep -v docs | grep -v "\.\." | grep -v "^\".\"$" | grep -v "\".git\"$" | xargs rm -rf
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-          git fetch
+          git fetch origin gh-pages
           git checkout gh-pages
+          git reset --hard
+          mv ./docs/* ./
+          rm -rf ./docs
+          git add .
+          git commit -m "feat: update component library"
+          git push origin
