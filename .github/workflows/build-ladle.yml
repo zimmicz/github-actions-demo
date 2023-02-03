@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: develop
       #- uses: "./.github/actions/npm-setup"
       #- name: Build components
         #run: DEBUG=ladle* npm run ladle:build -- --outDir "../docs"
