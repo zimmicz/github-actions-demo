@@ -1,3 +1,3 @@
 import { Button } from './button';
 
-export const Default = () => <Button text="" />;
+export const Default = () => <Button />;
