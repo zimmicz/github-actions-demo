@@ -1,0 +1,27 @@
+name: "Setup"
+description: "Set up node environment and install dependencies"
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@v3
+      with:
+        node-version-file: "./.nvmrc"
+        cache-dependency-path: "**/package-lock.json"
+        cache: "npm"
+
+    - uses: actions/cache@v3
+      id: cache
+      with:
+        path: |
+          "./webapp/node_modules"
+          "./.github/actions/bin/node_modules"
+        key: modules-${{ hashFiles('**/package-lock.json') }}
+
+    - name: Install dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: |
+        cd ./webapp
+        npm ci --legacy-peer-deps --prefer-offline --no-audit
+        cd ../.github/actions/bin
+        npm ci --legacy-peer-deps --prefer-offline --no-audit
+      shell: "bash"

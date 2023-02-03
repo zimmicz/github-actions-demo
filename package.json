@@ -1,0 +1,23 @@
+{
+  "name": "levelworks-ogp",
+  "version": "8.15.0",
+  "description": "- Install [NodeJS](https://nodejs.org/en/download/)",
+  "main": "index.js",
+  "scripts": {
+    "ci:install": "npm run ci:install:deploy && npm run ci:install:webapp",
+    "ci:install:deploy": "cd deploy && npm i --legacy-peer-deps",
+    "ci:install:webapp": "cd webapp && npm i --legacy-peer-deps",
+    "ci:build": "(cd webapp && npm run build) && (cd deploy && npm run build)",
+    "ci:build:test": "(cd webapp && npm run build:test) && (cd deploy && npm run build)",
+    "ci:build:acc": "(cd webapp && npm run build:acc) && (cd deploy && npm run build)",
+    "ci:build:prod": "(cd webapp && npm run build:prod) && (cd deploy && npm run build)",
+    "ci:synth": "(cd deploy && npm run synth)",
+    "ci:deploy": "(cd deploy && npm run deploy:webapp:ci)",
+    "install:all": "npm run ci:install"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lefthook": "^1.2.6"
+  }
+}

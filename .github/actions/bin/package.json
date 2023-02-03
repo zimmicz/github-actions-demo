@@ -1,0 +1,8 @@
+{
+  "name": "levelworks-ogp-actions",
+  "private": true,
+  "version": "1.0.0",
+  "devDependencies": {
+    "semver": "^7.3.8"
+  }
+}
