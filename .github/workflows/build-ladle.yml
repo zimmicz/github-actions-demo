@@ -43,8 +43,7 @@ jobs:
           mv ./docs/* ./
           rm -rf ./docs
           git add --all
-          ls -la
           git reset -- .github
-          git commit -m "feat: update component library"
+          git commit --allow-empty -m "feat: update component library"
           git push origin
           git checkout develop
