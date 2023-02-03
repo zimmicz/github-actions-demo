@@ -21,9 +21,7 @@ jobs:
       - uses: "./.github/actions/npm-setup"
       - name: Build components
         run: npm run ladle:build -- --outDir "../docs"
-        run: mkdir ../docs && cd ../docs && echo "hello" > index.txt
-
-      - name: Setup git config
+      - name: Update components
         run: |
           cd ..
           ls -Qa | grep -v docs | grep -v "\.\." | grep -v "^\".\"$" | grep -v "\".git\"$" | xargs rm -rf
