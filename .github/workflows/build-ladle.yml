@@ -44,4 +44,4 @@ jobs:
           git reset -- .github
           git commit -m "feat: update component library"
           git push origin
-          g co develop
+          git checkout develop
