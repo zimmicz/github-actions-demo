@@ -34,6 +34,46 @@
       "locEnd": 5,
       "filePath": "src/button/button.stories.tsx",
       "meta": {}
+    },
+    "button--default3": {
+      "name": "Default3",
+      "levels": [
+        "Button"
+      ],
+      "locStart": 6,
+      "locEnd": 6,
+      "filePath": "src/button/button.stories.tsx",
+      "meta": {}
+    },
+    "button--default4": {
+      "name": "Default4",
+      "levels": [
+        "Button"
+      ],
+      "locStart": 7,
+      "locEnd": 7,
+      "filePath": "src/button/button.stories.tsx",
+      "meta": {}
+    },
+    "button--default5": {
+      "name": "Default5",
+      "levels": [
+        "Button"
+      ],
+      "locStart": 8,
+      "locEnd": 8,
+      "filePath": "src/button/button.stories.tsx",
+      "meta": {}
+    },
+    "button--default6": {
+      "name": "Default6",
+      "levels": [
+        "Button"
+      ],
+      "locStart": 9,
+      "locEnd": 9,
+      "filePath": "src/button/button.stories.tsx",
+      "meta": {}
     }
   }
 }
