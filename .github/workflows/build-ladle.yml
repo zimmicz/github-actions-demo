@@ -30,7 +30,7 @@ jobs:
           git fetch origin gh-pages
           git checkout gh-pages
           git reset --hard
-          mv ./docs/* ./
+          mv -f ./docs/* ./
           rm -rf ./docs
           git add --all
           git reset -- .github
