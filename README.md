@@ -13,3 +13,4 @@ LW1-5 feature
 LW1-6 feature
 
 LW1-7 bugfix
+LW1-8 bugfix
