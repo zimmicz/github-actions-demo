@@ -5,6 +5,7 @@ on:
       - main
 jobs:
   create_tag:
+    if: contains(github.ref, 'release/v')
     name: Create tag
     runs-on: ubuntu-latest
     steps:
@@ -14,6 +15,14 @@ jobs:
           ref: main
           # needed otherwise no merge base can be found
           fetch-depth: 0
+
+      - name: Setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
+      - name: Set release tag
+        run: echo "TAG=$(echo ${{ github.ref }} | tr -d 'release/')" >> $GITHUB_ENV
 
       - name: show me
         run: |
