@@ -1,0 +1,46 @@
+run-name: Tag release
+on:
+  push:
+    branches:
+      - main
+jobs:
+  create_tag:
+    name: Create tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          # needed otherwise no merge base can be found
+          fetch-depth: 0
+
+      - name: show me
+        run: |
+          echo ${{ github.ref }}
+
+      - name: Setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
+      - name: Set release tag
+        run: echo "TAG=$(echo ${{ github.head_ref }} | tr -d 'release/')" >> $GITHUB_ENV
+
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          target_commitish: ${{ github.GITHUB_SHA }}
+          tag_name: ${{ env.TAG }}
+          body: See CHANGELOG.md
+
+      - name: Create main -> develop PR
+        id: create_main_develop_pr
+        uses: devops-infra/action-pull-request@v0.5.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          source_branch: main
+          target_branch: develop
+          body: This should be merged once the release to production is finished.
+          title: "[Release] main -> develop"
+          label: do not merge
