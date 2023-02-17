@@ -1,11 +1,13 @@
 run-name: Tag release
 on:
-  push:
+  pull_request:
     branches:
       - main
+    types:
+      - closed
 jobs:
   create_tag:
-    if: contains(github.ref, 'release/v')
+    if: github.event.pull_request.merged == true
     name: Create tag
     runs-on: ubuntu-latest
     steps:
@@ -26,7 +28,8 @@ jobs:
 
       - name: show me
         run: |
-          echo ${{ github.ref }}
+          git status
+          git log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
 
       - name: Create release
         uses: softprops/action-gh-release@v1
