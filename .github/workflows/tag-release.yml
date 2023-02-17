@@ -5,10 +5,13 @@ on:
       - main
 jobs:
   create_tag:
-    if: contains(github.ref, 'release/v')
     name: Create tag
     runs-on: ubuntu-latest
     steps:
+      - name: show me
+        run: |
+          echo ${{ github.ref }}
+
       - name: Checkout main branch
         uses: actions/checkout@v3
         with:
@@ -23,10 +26,6 @@ jobs:
 
       - name: Set release tag
         run: echo "TAG=$(echo ${{ github.ref }} | tr -d 'release/')" >> $GITHUB_ENV
-
-      - name: show me
-        run: |
-          echo ${{ github.ref }}
 
       - name: Create release
         uses: softprops/action-gh-release@v1
