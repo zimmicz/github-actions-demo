@@ -19,21 +19,6 @@ jobs:
           # needed otherwise no merge base can be found
           fetch-depth: 0
 
-      - name: Setup git config
-        run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
-
-      - name: Set release tag
-        run: echo "TAG=$(echo ${{ github.head_ref }} | tr -d 'release/')" >> $GITHUB_ENV
-
-      - name: Create release
-        uses: softprops/action-gh-release@v1
-        with:
-          target_commitish: ${{ github.GITHUB_SHA }}
-          tag_name: ${{ env.TAG }}
-          body: See CHANGELOG.md
-
       - name: Create main -> develop PR
         id: create_main_develop_pr
         uses: devops-infra/action-pull-request@v0.5.3

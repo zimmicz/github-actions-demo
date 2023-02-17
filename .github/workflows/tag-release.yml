@@ -28,3 +28,9 @@ jobs:
         run: |
           echo ${{ github.ref }}
 
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.TAG }}
+          body: See CHANGELOG.md
+
