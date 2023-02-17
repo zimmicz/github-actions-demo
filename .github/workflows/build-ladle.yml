@@ -1,0 +1,50 @@
+name: Build Ladle
+run-name: Updating Ladle component library
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - develop
+    paths:
+      - '**.stories.ts*'
+      - '.ladle'
+  workflow_dispatch:
+
+jobs:
+  build:
+    if: (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true) || github.event_name == 'workflow_dispatch'
+    defaults:
+      run:
+        working-directory: ./webapp
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: develop
+      - uses: "./.github/actions/npm-setup"
+      - name: Build components
+        run: npm run ladle:build -- --base "/${{github.event.repository.name}}/" --outDir "../docs"
+      - name: Update components
+        run: |
+          cd ..
+          # keep docs
+          # keep parent folder (..)
+          # keep current folder (.)
+          # keep both .git and .github folders
+          # drop the rest
+          ls -Qa | grep -v docs | grep -v "\.\." | grep -v "^\".\"$" | grep -v "\".git" | xargs rm -rf
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+          git fetch origin gh-pages
+          git checkout gh-pages
+          git reset --hard
+          # drop the previous build
+          rm -rf ./assets
+          mv ./docs/* ./
+          rm -rf ./docs
+          git add --all
+          git reset -- .github
+          git commit --allow-empty -m "feat: update component library"
+          git push origin
+          git checkout develop
