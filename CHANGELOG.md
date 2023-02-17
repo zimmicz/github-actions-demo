@@ -24,3 +24,10 @@ LW1-4 (bugfix): bugfix
 LW1-4 (feature): feature
 v8.16.0 v8.16.0: (release)-
 
+8.18.0 (2023-02-17)
+---
+JIRA fix version: 2023.Q1.4
+
+LW1-5 (feature): feature
+LW1-6 (feature): feature
+
