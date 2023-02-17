@@ -30,6 +30,7 @@ jobs:
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
+          target_commitish: ${{ github.GITHUB_SHA }}
           tag_name: ${{ env.TAG }}
           body: See CHANGELOG.md
 
