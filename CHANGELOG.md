@@ -31,3 +31,9 @@ JIRA fix version: 2023.Q1.4
 LW1-5 (feature): feature
 LW1-6 (feature): feature
 
+8.19.0 (2023-02-17)
+---
+JIRA fix version: 2023.Q1.5
+
+
+
