@@ -87,11 +87,12 @@ jobs:
           ---
           JIRA fix version: ${{ env.JIRA_FIX_VERSION }}
 
-          $(git log --merges --oneline main..develop \
+          $(git log --merges --oneline origin/main..develop \
             | grep -e "Merge pull request .*" \
             | cut -d "/" -f 2,3 \
             | uniq \
             | grep -v "creative-friday" \
+            | grep -v "dependabot" \
             | awk -F '/' '{ print $2"~("$1")" }' \
             | awk -F '-' '{print $1 "^" $2 "~" substr($0, index($0, $3))}' \
             | sed 's/-/ /g' \
@@ -103,7 +104,7 @@ jobs:
 
       - name: Update package version
         run: |
-          find . -maxdepth 2 -type f -iname "package.json" -exec sed -i s/version.*/version\":\ \"\${{ env.PACKAGE_VERSION }}\",/g {} \;
+          find . -maxdepth 2 -type f -iname "package.json" -exec sed -i s/\"version\":.*/\"version\":\ \"\${{ env.PACKAGE_VERSION }}\",/g {} \;
 
       - name: Commit and push updated files
         run: |
