@@ -22,7 +22,7 @@ jobs:
       - name: git
         run: |
           git status
-          git log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+          git log --pretty=format:"%h %ad | %s%d [%an]" --graph --date=short
 
       - name: Setup git config
         run: |
